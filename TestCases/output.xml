@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 5.0.1 (Python 3.9.9 on linux)" generated="20220710 16:19:36.509" rpa="false" schemaversion="3">
+<suite id="s1" name="Ceva" source="/home/horatiu/Downloads/PycharmProjects/requests1/TestCases/ceva.robot">
+<test id="s1-t1" name="Get_info" line="12">
+<kw name="Create Session" library="RequestsLibrary">
+<arg>mysession</arg>
+<arg>${base_url}</arg>
+<doc>Create Session: create a HTTP session to a server</doc>
+<msg timestamp="20220710 16:19:36.632" level="INFO">Creating Session using : alias=mysession, url=http://api.geonames.org, headers={},                     cookies={}, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" starttime="20220710 16:19:36.631" endtime="20220710 16:19:36.632"/>
+</kw>
+<kw name="GET On Session" library="RequestsLibrary">
+<var>${response}</var>
+<arg>mysession</arg>
+<arg>url=/getJSON?username=${username}&amp;geonameId=${geoNamesId}</arg>
+<doc>Sends a GET request on a previously created HTTP Session.</doc>
+<msg timestamp="20220710 16:19:36.709" level="INFO">GET Request : url=http://api.geonames.org/getJSON?username=geonamesfreeaccountt&amp;geonameId=3899192 
+ path_url=/getJSON?username=geonamesfreeaccountt&amp;geonameId=3899192 
+ headers={'User-Agent': 'python-requests/2.28.1', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'} 
+ body=None 
+ </msg>
+<msg timestamp="20220710 16:19:36.709" level="INFO">GET Response : url=http://api.geonames.org/getJSON?username=geonamesfreeaccountt&amp;geonameId=3899192 
+ status=200, reason=OK 
+ headers={'Date': 'Sun, 10 Jul 2022 13:19:36 GMT', 'Server': 'Apache/2.4.6 (CentOS) mod_jk/1.2.41 OpenSSL/1.0.1e-fips PHP/5.4.16', 'Access-Control-Allow-Origin': '*', 'X-Frame-Options': 'sameorigin', 'Cache-Control': 'no-cache', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive', 'Transfer-Encoding': 'chunked', 'Content-Type': 'application/json;charset=UTF-8'} 
+ body={"timezone":{"gmtOffset":-3,"timeZoneId":"America/Santiago","dstOffset":-4},"asciiName":"Atacama Desert","astergdem":2654,"countryId":"3895114","fcl":"T","srtm3":2657,"countryCode":"CL","adminCodes1":{"ISO3166_2":"AN"},"adminId1":"3899537","lat":"-24.5","fcode":"DSRT","continentCode":"SA","adminCode1":"03","lng":"-69.25","geonameId":3899192,"toponymName":"Atacama Desert","population":0,"wikipediaURL":"en.wikipedia.org/wiki/Atacama_Desert","adminName5":"","adminName4":"","adminName3":"","alternateNames":[{"name":"Atacama Desert","lang":"en"},{"name":"Atacoma Desert"},{"isShortName":true,"isPreferredName":true,"name":"Désert d'Atacama","lang":"fr"},{"name":"Desert of Atacama"},{"name":"Desierto de Atacama","lang":"es"},{"name":"Desierto de Atacama"},{"name":"https://en.wikipedia.org/wiki/Atacama_Desert","lang":"link"},{"name":"Q47141","lang":"wkdt"}],"adminName2":"","name":"Atacama Desert","fclName":"mountain,hill,rock,... ","countryName":"Chile","fcodeName":"desert","adminName1":"Antofagasta"} 
+ </msg>
+<msg timestamp="20220710 16:19:36.710" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20220710 16:19:36.632" endtime="20220710 16:19:36.710"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${responseJson}</var>
+<arg>${response.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20220710 16:19:36.712" level="INFO">${responseJson} = {'timezone': {'gmtOffset': -3, 'timeZoneId': 'America/Santiago', 'dstOffset': -4}, 'asciiName': 'Atacama Desert', 'astergdem': 2654, 'countryId': '3895114', 'fcl': 'T', 'srtm3': 2657, 'countryCode': '...</msg>
+<status status="PASS" starttime="20220710 16:19:36.710" endtime="20220710 16:19:36.712"/>
+</kw>
+<kw name="Get Value From Json" library="JSONLibrary">
+<var>@{alternateNames}</var>
+<arg>${responseJson}</arg>
+<arg>alternateNames</arg>
+<doc>Get Value From JSON using JSONPath</doc>
+<msg timestamp="20220710 16:19:36.811" level="INFO">@{alternateNames} = [ [{'name': 'Atacama Desert', 'lang': 'en'}, {'name': 'Atacoma Desert'}, {'isShortName': True, 'isPreferredName': True, 'name': "Désert d'Atacama", 'lang': 'fr'}, {'name': 'Desert of Atacama'}, {'name...</msg>
+<status status="PASS" starttime="20220710 16:19:36.713" endtime="20220710 16:19:36.812"/>
+</kw>
+<kw name="Get From List" library="Collections">
+<var>${firstAlternateName}</var>
+<arg>${alternateNames}</arg>
+<arg>0</arg>
+<doc>Returns the value specified with an ``index`` from ``list``.</doc>
+<msg timestamp="20220710 16:19:36.814" level="INFO">${firstAlternateName} = [{'name': 'Atacama Desert', 'lang': 'en'}, {'name': 'Atacoma Desert'}, {'isShortName': True, 'isPreferredName': True, 'name': "Désert d'Atacama", 'lang': 'fr'}, {'name': 'Desert of Atacama'}, {'name':...</msg>
+<status status="PASS" starttime="20220710 16:19:36.812" endtime="20220710 16:19:36.814"/>
+</kw>
+<kw name="Log To Console" library="BuiltIn">
+<arg>${firstAlternateName}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" starttime="20220710 16:19:36.814" endtime="20220710 16:19:36.815"/>
+</kw>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>200</arg>
+<arg>${response.status_code}</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20220710 16:19:36.818" level="INFO">Argument types are:
+&lt;class 'str'&gt;
+&lt;class 'int'&gt;</msg>
+<status status="PASS" starttime="20220710 16:19:36.816" endtime="20220710 16:19:36.818"/>
+</kw>
+<status status="PASS" starttime="20220710 16:19:36.630" endtime="20220710 16:19:36.819"/>
+</test>
+<status status="PASS" starttime="20220710 16:19:36.510" endtime="20220710 16:19:36.820"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Ceva">Ceva</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
